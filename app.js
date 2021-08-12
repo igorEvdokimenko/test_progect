@@ -36,9 +36,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 
+const secret = process.env.SECRET || 'secret'
+
 const store = MongoStore.create({
     mongoUrl: dbUrl,
-    secret: process.env.SECRET,
+    secret,
     touchAfter: 24 * 60 * 60
 })
 
@@ -48,7 +50,7 @@ store.on("error", function (e) {
 
 const sessionConfig = {
     store,
-    secret: process.env.SECRET,
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
